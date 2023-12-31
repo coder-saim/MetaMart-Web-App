@@ -4,7 +4,9 @@
   "description": "metamart ecommerce webapp backend",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "SET MODE_ENV=DEVELOPMENT & nodemon server.js",
+    "prod": "SET MODE_ENV=PRODUCTION & nodemon server.js"
   },
   "author": "Md Saim Ahmmed Uthso",
   "license": "ISC",
