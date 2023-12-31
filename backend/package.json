@@ -1,0 +1,11 @@
+{
+  "name": "metamart",
+  "version": "1.0.0",
+  "description": "metamart ecommerce webapp backend",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Md Saim Ahmmed Uthso",
+  "license": "ISC"
+}
