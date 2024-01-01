@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "SET MODE_ENV=DEVELOPMENT & nodemon server.js",
-    "prod": "SET MODE_ENV=PRODUCTION & nodemon server.js"
+    "dev": "SET NODE_ENV=DEVELOPMENT & nodemon server.js",
+    "prod": "SET NODE_ENV=PRODUCTION & nodemon server.js"
   },
   "author": "Md Saim Ahmmed Uthso",
   "license": "ISC",
