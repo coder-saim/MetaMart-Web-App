@@ -26,3 +26,33 @@ exports.registerUser = catchAsyncError(async(req,res,next) => {
         token
     })
 })
+
+
+
+exports.loginUser = catchAsyncError(async(req,res,next) => {
+    const {email,password} = req.body;
+    let random_id = Math.floor((Math.random() * 10000) + 1);
+    
+    if(!email && !password){
+        return next(new ErrorHandler('Please Enter email and password!',400));
+    }
+
+    const user = await User.findOne({ email }).select('+password');
+
+    if (!user) {
+        return next(new ErrorHandler('Invalid Email or Password', 401));
+    }
+
+    const isPasswordMatched = await user.comparePassword(password);
+
+    if (!isPasswordMatched) {
+        return next(new ErrorHandler('Invalid Email or Password', 401));
+    }
+
+    const token = user.getJwtToken();
+
+    res.status(200).json({
+        success: true,
+        token
+    })
+})
