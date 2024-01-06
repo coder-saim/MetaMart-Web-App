@@ -5,12 +5,24 @@ const {
   newOrder,
   getSingleOrder,
   myOrders,
-  allOrders
+  allOrders,
+  updateOrder
 } = require("../controllers/orderController");
 
 router.route("/order/new").post(isAuthenticatedUser, newOrder);
 router.route("/order/me").get(isAuthenticatedUser, myOrders);
 router.route("/order/:id").get(isAuthenticatedUser, getSingleOrder);
+
+
 router.route("/admin/order").get(isAuthenticatedUser,authorizeRoles('admin'),allOrders);
+router.route("/admin/order/:id").put(isAuthenticatedUser,authorizeRoles('admin'),updateOrder);
 
 module.exports = router;
+
+
+
+
+
+
+
+
