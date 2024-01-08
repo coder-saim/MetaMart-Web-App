@@ -4,6 +4,7 @@ import Metadata from "./layout/Metadata";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../actions/productActions";
 import Product from "./product/Product";
+import Loading from "./layout/Loading";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const HomePage = () => {
   return (
     <Fragment>
       {loading ? (
-        <h1>Loading....</h1>
+        <Loading/>
       ) : (
         <Fragment>
           <div className="container container-fluid">
