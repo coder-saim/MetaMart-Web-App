@@ -1,9 +1,11 @@
 import React from "react";
 import "./../App.css";
+import Metadata from "./layout/Metadata";
 
 const HomePage = () => {
   return (
     <div className="container container-fluid">
+      <Metadata title={"Buy Best Products Online"} />
       <h1 id="products_heading">Latest Products</h1>
       <section id="products" class="container mt-5">
         <div class="row">
