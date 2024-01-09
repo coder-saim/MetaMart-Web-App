@@ -6,7 +6,12 @@ const Product = (props) => {
   return (
     <div className="col-sm-12 col-md-6 col-lg-3 my-3">
       <div className="card p-3 rounded">
-        <img className="card-img-top mx-auto" src={product.images[0].ulr} />
+        {/* <img className="card-img-top mx-auto" src={product.images[0].ulr} /> */}
+        <img
+          className="card-img-top mx-auto"
+          src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjB8fGFtYXpvbnxlbnwwfHwwfHx8MA%3D%3D"
+          alt="flx"
+        />
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">
             <Link to={`/product/${product._id}`}>{product.name} </Link>
@@ -21,7 +26,11 @@ const Product = (props) => {
             <span id="no_of_reviews">({product.numOfReviews} Reviews)</span>
           </div>
           <p className="card-text">$45.67</p>
-          <Link to={`/product/${product._id}`} id="view_btn" className="btn btn-block">
+          <Link
+            to={`/product/${product._id}`}
+            id="view_btn"
+            className="btn btn-block"
+          >
             View Details
           </Link>
         </div>

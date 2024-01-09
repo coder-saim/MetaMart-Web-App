@@ -6,23 +6,37 @@ import { getProducts } from "../actions/productActions";
 import Product from "./product/Product";
 import Loading from "./layout/Loading";
 
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const HomePage = () => {
   const dispatch = useDispatch();
 
-  const { loading, products, productsCount } = useSelector(
+  const { loading, products, productsCount, error } = useSelector(
     (state) => state.products
   );
 
-  console.log(products);
-
   useEffect(() => {
+    if (error) {
+      toast("Something went wrong!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
     dispatch(getProducts());
-  }, [dispatch]);
+  }, [dispatch,error]);
 
   return (
     <Fragment>
       {loading ? (
-        <Loading/>
+        <Loading />
       ) : (
         <Fragment>
           <div className="container container-fluid">
@@ -39,6 +53,7 @@ const HomePage = () => {
           </div>{" "}
         </Fragment>
       )}
+      <ToastContainer />
     </Fragment>
   );
 };
