@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import "./../App.css";
 import Metadata from "./layout/Metadata";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../actions/productActions";
+import { clearErrors, getProducts } from "../actions/productActions";
 import Product from "./product/Product";
 import Loading from "./layout/Loading";
 
@@ -28,10 +28,11 @@ const HomePage = () => {
         progress: undefined,
         theme: "light",
       });
+      dispatch(clearErrors());
       return;
     }
     dispatch(getProducts());
-  }, [dispatch,error]);
+  }, [dispatch, error]);
 
   return (
     <Fragment>
@@ -39,8 +40,8 @@ const HomePage = () => {
         <Loading />
       ) : (
         <Fragment>
+          <Metadata title={"Buy Best Products Online"} />
           <div className="container container-fluid">
-            <Metadata title={"Buy Best Products Online"} />
             <h1 id="products_heading">Latest Products</h1>
             <section id="products" className="container mt-5">
               <div className="row">

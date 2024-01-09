@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
-import '../../App.css'
+import { Link } from "react-router-dom";
+import "../../App.css";
 
 const Header = () => {
   return (
@@ -7,7 +8,14 @@ const Header = () => {
       <nav className="navbar row">
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
-            <img src="/images/MetaMart_Logo.png" width={70} height={70} alt="Logo" />
+            <Link to="/">
+              <img
+                src="/images/MetaMart_Logo.png"
+                width={70}
+                height={70}
+                alt="Logo"
+              />
+            </Link>
           </div>
         </div>
 
