@@ -1,18 +1,20 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import "./../App.css";
 import Metadata from "./layout/Metadata";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, getProducts } from "../actions/productActions";
 import Product from "./product/Product";
 import Loading from "./layout/Loading";
+import Pagination from "react-js-pagination";
 
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { loading, products, productsCount, error } = useSelector(
+  const { loading, products, productsCount, error, resPerPage } = useSelector(
     (state) => state.products
   );
 
@@ -31,8 +33,12 @@ const HomePage = () => {
       dispatch(clearErrors());
       return;
     }
-    dispatch(getProducts());
-  }, [dispatch, error]);
+    dispatch(getProducts(currentPage));
+  }, [dispatch, error, currentPage]);
+
+  function setCurrentPageNo(pageNumber) {
+    setCurrentPage(pageNumber);
+  }
 
   return (
     <Fragment>
@@ -52,6 +58,22 @@ const HomePage = () => {
               </div>
             </section>
           </div>{" "}
+          {resPerPage <= productsCount && (
+            <div className="d-flex justify-content-center mt-5">
+              <Pagination
+                activePage={currentPage}
+                itemsCountPerPage={resPerPage}
+                totalItemsCount={productsCount}
+                onChange={setCurrentPageNo}
+                nextPageText={"Next"}
+                prevPageText={"Prev"}
+                firstPageText={"First"}
+                lastPageText={"Last"}
+                itemClass="page-item"
+                linkClass="page-link"
+              />
+            </div>
+          )}
         </Fragment>
       )}
       <ToastContainer />
