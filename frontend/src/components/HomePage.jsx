@@ -6,13 +6,17 @@ import { clearErrors, getProducts } from "../actions/productActions";
 import Product from "./product/Product";
 import Loading from "./layout/Loading";
 import Pagination from "react-js-pagination";
-
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useParams } from "react-router-dom";
+
+
+
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
+  const { keyword } = useParams();
 
   const { loading, products, productsCount, error, resPerPage } = useSelector(
     (state) => state.products
@@ -33,12 +37,13 @@ const HomePage = () => {
       dispatch(clearErrors());
       return;
     }
-    dispatch(getProducts(currentPage));
-  }, [dispatch, error, currentPage]);
+    dispatch(getProducts(keyword,currentPage));
+  }, [dispatch, error,keyword, currentPage]);
 
   function setCurrentPageNo(pageNumber) {
     setCurrentPage(pageNumber);
   }
+  console.log(products)
 
   return (
     <Fragment>
