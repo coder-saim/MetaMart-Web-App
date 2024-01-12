@@ -44,7 +44,7 @@ const HomePage = () => {
     setCurrentPage(pageNumber);
   }
   console.log(products)
-
+ 
   return (
     <Fragment>
       {loading ? (
