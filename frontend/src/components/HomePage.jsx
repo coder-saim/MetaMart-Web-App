@@ -10,17 +10,17 @@ import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
 
-
-
-
 const HomePage = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const { keyword } = useParams();
+  const [minPrice, setMinPrice] = useState(1);
+  const [maxPrice, setMaxPrice] = useState(1000);
 
   const { loading, products, productsCount, error, resPerPage } = useSelector(
     (state) => state.products
   );
+
 
   useEffect(() => {
     if (error) {
@@ -37,14 +37,14 @@ const HomePage = () => {
       dispatch(clearErrors());
       return;
     }
-    dispatch(getProducts(keyword,currentPage));
-  }, [dispatch, error,keyword, currentPage]);
+    dispatch(getProducts(keyword, currentPage, minPrice, maxPrice));
+  }, [dispatch, error, keyword, currentPage, minPrice, maxPrice]);
 
   function setCurrentPageNo(pageNumber) {
     setCurrentPage(pageNumber);
   }
-  console.log(products)
- 
+  console.log(products);
+
   return (
     <Fragment>
       {loading ? (
@@ -56,10 +56,57 @@ const HomePage = () => {
             <h1 id="products_heading">Latest Products</h1>
             <section id="products" className="container mt-5">
               <div className="row">
-                {products &&
+                {keyword ? (
+                  <Fragment>
+                    <div className="col-6 col-md-3 mt-5 mb-5">
+                      <div className="px-5" style={{ cursor: "pointer" }}>
+                        <div class="dispaly1">
+                          <div class="range-slider">
+                            <span class="range-selected"></span>
+                          </div>
+                          <div class="range-input">
+                            <input
+                              type="range"
+                              onChange={(e) =>
+                                setMinPrice(parseFloat(e.target.value))
+                              }
+                              min={1}
+                              max={1000}
+                              step={5}
+                              defaultValue={1}
+                            />
+                            <input
+                              type="range"
+                              onChange={(e) =>
+                                setMaxPrice(parseFloat(e.target.value))
+                              }
+                              min={1}
+                              max={1000}
+                              step={5}
+                              defaultValue={1000}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-6 col-md-9">
+                      <div className="row">
+                        {products.map((product) => (
+                          <Product
+                            key={product._id}
+                            product={product}
+                            col={4}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </Fragment>
+                ) : (
                   products.map((product) => (
-                    <Product key={product._id} product={product} />
-                  ))}
+                    <Product key={product._id} product={product} col={3} />
+                  ))
+                )}
               </div>
             </section>
           </div>{" "}

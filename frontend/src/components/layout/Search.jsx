@@ -23,7 +23,7 @@ const Search = () => {
           className="form-control"
           placeholder="Enter Product Name ..."
           onChange={(e) => {
-            setKeyword(e.target.value);
+          setKeyword(e.target.value);
           }}
         />
         <div className="input-group-append">
