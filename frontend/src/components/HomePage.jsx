@@ -15,9 +15,7 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const { keyword } = useParams();
-  const [minPrice, setMinPrice] = useState(1);
-  const [maxPrice, setMaxPrice] = useState(1000);
-  const [values,setValues] = useState([1,1000]);
+  const [price,setPrice] = useState([1,1000]);
 
   const { loading, products, productsCount, error, resPerPage } = useSelector(
     (state) => state.products
@@ -39,13 +37,13 @@ const HomePage = () => {
       dispatch(clearErrors());
       return;
     }
-    dispatch(getProducts(keyword, currentPage,values));
-  }, [dispatch, error, keyword, currentPage, values]);
+    dispatch(getProducts(keyword, currentPage,price));
+  }, [dispatch, error, keyword, currentPage, price]);
 
   function setCurrentPageNo(pageNumber) {
     setCurrentPage(pageNumber);
   }
-  console.log(products + '  ' + values);
+  console.log(products + '  ' + price);
 
   return (
     <Fragment>
@@ -64,11 +62,11 @@ const HomePage = () => {
                   <Fragment>
                     <div className="col-6 col-md-3 mt-5 mb-5">
                       <div className="px-5" style={{ cursor: "pointer" }}>
-                        <h6 className="text-center">Range {values[0]} to {values[1]}</h6>
+                        <h6 className="text-center">Range {price[0]} to {price[1]}</h6>
                         <Slider
                           className="slider"
-                          onChange={setValues}
-                          value={values}
+                          onChange={setPrice}
+                          value={price}
                           min='1'
                           max='1000'
                         />
