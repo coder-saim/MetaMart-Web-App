@@ -9,6 +9,7 @@ import Pagination from "react-js-pagination";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
+import Slider from 'react-slider'
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const HomePage = () => {
   const { keyword } = useParams();
   const [minPrice, setMinPrice] = useState(1);
   const [maxPrice, setMaxPrice] = useState(1000);
+  const [values,setValues] = useState([1,1000]);
 
   const { loading, products, productsCount, error, resPerPage } = useSelector(
     (state) => state.products
@@ -37,13 +39,13 @@ const HomePage = () => {
       dispatch(clearErrors());
       return;
     }
-    dispatch(getProducts(keyword, currentPage, minPrice, maxPrice));
-  }, [dispatch, error, keyword, currentPage, minPrice, maxPrice]);
+    dispatch(getProducts(keyword, currentPage,values));
+  }, [dispatch, error, keyword, currentPage, values]);
 
   function setCurrentPageNo(pageNumber) {
     setCurrentPage(pageNumber);
   }
-  console.log(products);
+  console.log(products + '  ' + values);
 
   return (
     <Fragment>
@@ -55,38 +57,21 @@ const HomePage = () => {
           <div className="container container-fluid">
             <h1 id="products_heading">Latest Products</h1>
             <section id="products" className="container mt-5">
+            <h5>Filter Products</h5>
               <div className="row">
+                
                 {keyword ? (
                   <Fragment>
                     <div className="col-6 col-md-3 mt-5 mb-5">
                       <div className="px-5" style={{ cursor: "pointer" }}>
-                        <div class="dispaly1">
-                          <div class="range-slider">
-                            <span class="range-selected"></span>
-                          </div>
-                          <div class="range-input">
-                            <input
-                              type="range"
-                              onChange={(e) =>
-                                setMinPrice(parseFloat(e.target.value))
-                              }
-                              min={1}
-                              max={1000}
-                              step={5}
-                              defaultValue={1}
-                            />
-                            <input
-                              type="range"
-                              onChange={(e) =>
-                                setMaxPrice(parseFloat(e.target.value))
-                              }
-                              min={1}
-                              max={1000}
-                              step={5}
-                              defaultValue={1000}
-                            />
-                          </div>
-                        </div>
+                        <h6 className="text-center">Range {values[0]} to {values[1]}</h6>
+                        <Slider
+                          className="slider"
+                          onChange={setValues}
+                          value={values}
+                          min='1'
+                          max='1000'
+                        />
                       </div>
                     </div>
 
