@@ -9,6 +9,8 @@ import { useEffect } from "react";
 import store from "./store";
 import { loadUser } from "./actions/userActions";
 import Profile from "./components/user/Profile";
+import UpdateProfile from "./components/user/UpdateProfile";
+import UpdatePassword from "./components/user/UpdatePassword";
 
 
 
@@ -27,6 +29,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/update" element={<UpdateProfile />} />
+          <Route path="/password/update" element={<UpdatePassword />} />
         </Routes>
         <Footer />
       </div>
