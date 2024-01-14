@@ -3,6 +3,8 @@ import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProductDetails from "./components/product/ProductDetails";
+import Login from "./components/user/Login";
+
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
           <Route path="/" element={<HomePage />}  />
           <Route path="/search/:keyword" element={<HomePage />} />
           <Route path="/product/:id" element={<ProductDetails/>} exact />
+          <Route path="/login" element={<Login/>}  />
         </Routes>
         <Footer />
       </div>

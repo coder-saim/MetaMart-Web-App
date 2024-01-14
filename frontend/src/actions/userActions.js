@@ -38,6 +38,7 @@ import {
     CLEAR_ERRORS
 } from '../constants/userConstants'
 
+
 // Login
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -331,9 +332,9 @@ export const login = (email, password) => async (dispatch) => {
 // }
 
 
-// // Clear Errors
-// export const clearErrors = () => async (dispatch) => {
-//     dispatch({
-//         type: CLEAR_ERRORS
-//     })
-// }
+// Clear Errors
+export const clearErrors = () => async (dispatch) => {
+    dispatch({
+        type: CLEAR_ERRORS
+    })
+}
