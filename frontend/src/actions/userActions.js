@@ -222,23 +222,23 @@ export const loadUser = () => async (dispatch) => {
 //     }
 // }
 
-// // Logout user
-// export const logout = () => async (dispatch) => {
-//     try {
+// Logout user
+export const logout = () => async (dispatch) => {
+    try {
 
-//         await axios.get('/api/v1/logout')
+        await axios.get('/api/v1/logout')
 
-//         dispatch({
-//             type: LOGOUT_SUCCESS,
-//         })
+        dispatch({
+            type: LOGOUT_SUCCESS,
+        })
 
-//     } catch (error) {
-//         dispatch({
-//             type: LOGOUT_FAIL,
-//             payload: error.response.data.message
-//         })
-//     }
-// }
+    } catch (error) {
+        dispatch({
+            type: LOGOUT_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 
 // // Get all users
 // export const allUsers = () => async (dispatch) => {
