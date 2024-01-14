@@ -7,10 +7,15 @@ const order = require('./routes/order');
 const errorMiddleware = require('./middlewares/errors')
 const bodyParser = require('body-parser')
 const cloudinary = require('cloudinary')
+const dotenv = require('dotenv');
+const fileUpload = require('express-fileupload')
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(fileUpload());
+
+dotenv.config({path: 'config/config.env'})
 
 // setting cloudinary config....
 cloudinary.config({
