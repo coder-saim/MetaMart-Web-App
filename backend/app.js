@@ -6,7 +6,7 @@ const auth = require('./routes/auth');
 const order = require('./routes/order');
 const errorMiddleware = require('./middlewares/errors')
 const bodyParser = require('body-parser')
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary').v2;
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload')
 
@@ -15,14 +15,15 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(fileUpload());
 
-dotenv.config({path: 'config/config.env'})
+dotenv.config({ path: "config/config.env" });
 
 // setting cloudinary config....
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-})
+cloudinary.config({ 
+    cloud_name: 'dfkgmf0jy', 
+    api_key: '443437824539296', 
+    api_secret: 'fx-x7hm9f-0n6U3PN6_AEZd5MFw',
+    secure: true 
+  });
 
 
 app.use('/api/v1',products);
