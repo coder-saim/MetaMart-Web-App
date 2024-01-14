@@ -34,13 +34,9 @@ const HomePage = () => {
     "Home",
   ];
 
-  const {
-    loading,
-    products,
-    productsCount,
-    error,
-    resPerPage,
-  } = useSelector((state) => state.products);
+  const { loading, products, productsCount, error, resPerPage } = useSelector(
+    (state) => state.products
+  );
 
   useEffect(() => {
     if (error) {
@@ -57,15 +53,13 @@ const HomePage = () => {
       dispatch(clearErrors());
       return;
     }
-    dispatch(getProducts(keyword, currentPage, price, category));
-  }, [dispatch, error, keyword, currentPage, price, category]);
+    dispatch(getProducts(keyword, currentPage, price, category, rating));
+  }, [dispatch, error, keyword, currentPage, price, category, rating]);
 
   function setCurrentPageNo(pageNumber) {
     setCurrentPage(pageNumber);
   }
   console.log(products + "  " + price);
-
-  
 
   return (
     <Fragment>
@@ -109,6 +103,34 @@ const HomePage = () => {
                                 onClick={() => setCategory(category)}
                               >
                                 {category}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <hr className="my-3" />
+
+                        <div className="mt-5">
+                          <h4 className="mb-3">Ratings</h4>
+
+                          <ul className="pl-0">
+                            {[5, 4, 3, 2, 1].map((star) => (
+                              <li
+                                style={{
+                                  cursor: "pointer",
+                                  listStyleType: "none",
+                                }}
+                                key={star}
+                                onClick={() => setRating(star)}
+                              >
+                                <div className="rating-outer">
+                                  <div
+                                    className="rating-inner"
+                                    style={{
+                                      width: `${star * 20}%`,
+                                    }}
+                                  ></div>
+                                </div>
                               </li>
                             ))}
                           </ul>
