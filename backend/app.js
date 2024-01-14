@@ -5,9 +5,19 @@ const products = require('./routes/products');
 const auth = require('./routes/auth');
 const order = require('./routes/order');
 const errorMiddleware = require('./middlewares/errors')
+const bodyParser = require('body-parser')
+const cloudinary = require('cloudinary')
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: true}));
+
+// setting cloudinary config....
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 
 app.use('/api/v1',products);
