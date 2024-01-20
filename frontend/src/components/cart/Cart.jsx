@@ -12,6 +12,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const { cartItems } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.auth);
 
   const removeCartItemHandler = (id) => {
     dispatch(removeItemFromCart(id));
@@ -21,17 +22,18 @@ const Cart = () => {
     const newQty = quantity + 1;
 
     if (newQty > stock) {
-        toast(`Product limit exceeded!`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        return;}
+      toast(`Product limit exceeded!`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
 
     dispatch(addItemToCart(id, newQty));
   };
@@ -40,27 +42,41 @@ const Cart = () => {
     const newQty = quantity - 1;
 
     if (newQty <= 0) {
-        toast(`Product limit can not be less than 1!`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        return;} 
+      toast(`Product limit can not be less than 1!`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
 
     dispatch(addItemToCart(id, newQty));
   };
 
   const checkoutHandler = () => {
-    navigate("/login?redirect=shipping");
+    if (user) navigate("/shipping");
+    else {
+      toast("Login required for shipping!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      navigate("/login?redirect=shipping")
+    }
   };
-  let item_text = ''
-  if(cartItems.length>1) item_text = 'items'
-  else item_text = 'item'
+  let item_text = "";
+  if (cartItems.length > 1) item_text = "items";
+  else item_text = "item";
 
   return (
     <Fragment>
@@ -70,7 +86,10 @@ const Cart = () => {
       ) : (
         <Fragment>
           <h2 className="mt-5 ml-5 pl-5">
-            Your Cart: <b>{cartItems.length} {item_text}</b>
+            Your Cart:{" "}
+            <b>
+              {cartItems.length} {item_text}
+            </b>
           </h2>
 
           <div className="row d-flex justify-content-around ">
@@ -91,9 +110,7 @@ const Cart = () => {
                       </div>
 
                       <div className="col-5 col-lg-3">
-                        <Link to={`/product/${item.product}`}>
-                          {item.name}
-                        </Link>
+                        <Link to={`/product/${item.product}`}>{item.name}</Link>
                       </div>
 
                       <div className="col-4 col-lg-2 mt-4 mt-lg-0">
@@ -187,7 +204,7 @@ const Cart = () => {
           </div>
         </Fragment>
       )}
-      <ToastContainer/>
+      <ToastContainer />
     </Fragment>
   );
 };

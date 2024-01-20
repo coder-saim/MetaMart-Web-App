@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, clearErrors } from "../../actions/userActions";
 import { Slide, ToastContainer, toast } from "react-toastify";
@@ -13,16 +13,19 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation()
 
   const { isAuthenticated, error, loading } = useSelector(
     (state) => state.auth
   );
 
-  //   const redirect = location.search ? location.search.split("=")[1] : "/";
+  const redirect = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
+      if(redirect.includes('shipping'))
+        navigate('/shipping');
+      else navigate('/')
     }
 
     if (error) {
