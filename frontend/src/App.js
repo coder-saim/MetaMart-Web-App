@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProductDetails from "./components/product/ProductDetails";
 import Login from "./components/user/Login";
 import Register from "./components/user/Register";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import store from "./store";
 import { loadUser } from "./actions/userActions";
 import Profile from "./components/user/Profile";
@@ -16,12 +16,22 @@ import ResetPassword from "./components/user/ResetPassword";
 import Cart from "./components/cart/Cart";
 import Shipping from "./components/cart/Shipping";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
-
+import axios from "axios";
 
 
 function App() {
+
+  const [stripeApiKey,setStripeApiKey] = useState('')
   useEffect(() => {
     store.dispatch(loadUser());
+
+    async function getStripApiKey() {
+      const { data } = await axios.get('/api/v1/stripeapi');
+
+      setStripeApiKey(data.stripeApiKey)
+    }
+
+    getStripApiKey();
   }, []);
   return (
     <Router>
