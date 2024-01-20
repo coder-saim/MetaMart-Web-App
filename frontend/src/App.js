@@ -13,6 +13,7 @@ import UpdateProfile from "./components/user/UpdateProfile";
 import UpdatePassword from "./components/user/UpdatePassword";
 import ForgotPassword from "./components/user/ForgotPassword";
 import ResetPassword from "./components/user/ResetPassword";
+import Cart from "./components/cart/Cart";
 
 
 
@@ -28,6 +29,11 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/search/:keyword" element={<HomePage />} />
           <Route path="/product/:id" element={<ProductDetails />} exact />
+          
+
+          <Route path="/cart" element={<Cart />} />
+
+          
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
@@ -35,6 +41,8 @@ function App() {
           <Route path="/password/update" element={<UpdatePassword />} />
           <Route path="/password/forgot" element={<ForgotPassword />} />
           <Route path="/password/reset/:token" element={<ResetPassword />} />
+
+
         </Routes>
         <Footer />
       </div>
