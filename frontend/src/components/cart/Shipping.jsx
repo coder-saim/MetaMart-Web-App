@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { countries } from 'countries-list'
-// import CheckoutSteps from './CheckoutSteps'
+import CheckoutSteps from './CheckoutSteps'
 import Metadata from '../layout/Metadata'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveShippingInfo } from '../../actions/cartActions'
@@ -34,7 +34,7 @@ const Shipping = () => {
 
             <Metadata title={'Shipping Info'} />
 
-            {/* <CheckoutSteps shipping /> */}
+            <CheckoutSteps shipping />
 
             <div className="row wrapper">
                 <div className="col-10 col-lg-5">
