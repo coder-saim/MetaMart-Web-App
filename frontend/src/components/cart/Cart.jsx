@@ -4,6 +4,8 @@ import Metadata from "../layout/Metadata";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart, removeItemFromCart } from "../../actions/cartActions";
 import { useNavigate } from "react-router-dom";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -18,7 +20,18 @@ const Cart = () => {
   const increaseQty = (id, quantity, stock) => {
     const newQty = quantity + 1;
 
-    if (newQty > stock) return;
+    if (newQty > stock) {
+        toast(`Product limit exceeded!`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        return;}
 
     dispatch(addItemToCart(id, newQty));
   };
@@ -26,7 +39,18 @@ const Cart = () => {
   const decreaseQty = (id, quantity) => {
     const newQty = quantity - 1;
 
-    if (newQty <= 0) return;
+    if (newQty <= 0) {
+        toast(`Product limit can not be less than 1!`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        return;} 
 
     dispatch(addItemToCart(id, newQty));
   };
@@ -163,6 +187,7 @@ const Cart = () => {
           </div>
         </Fragment>
       )}
+      <ToastContainer/>
     </Fragment>
   );
 };
