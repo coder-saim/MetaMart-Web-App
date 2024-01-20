@@ -66,7 +66,7 @@ const Cart = () => {
     <Fragment>
       <Metadata title={"Your Cart"} />
       {cartItems.length === 0 ? (
-        <h2 className="mt-8 pl-5">Your Cart is Empty</h2>
+        <h2 className="mt-5 text-center">Your Cart is Empty</h2>
       ) : (
         <Fragment>
           <h2 className="mt-5 ml-5 pl-5">
