@@ -3,8 +3,9 @@ import CheckoutSteps from "./CheckoutSteps";
 import Metadata from "../layout/Metadata";
 import { useDispatch, useSelector } from "react-redux";
 // import { createOrder, clearErrors } from "../../actions/orderActions";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   useStripe,
   useElements,
@@ -13,6 +14,7 @@ import {
   CardCvcElement,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
+import Loading from "../layout/Loading";
 
 const options = {
   style: {
@@ -25,20 +27,23 @@ const options = {
   },
 };
 
+// stripe code: 4000 0027 6000 3184
+
 const Payment = ({ history }) => {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
   const { cartItems, shippingInfo } = useSelector((state) => state.cart);
-//   const { error } = useSelector((state) => state.newOrder);
+  //   const { error } = useSelector((state) => state.newOrder);
 
-//   useEffect(() => {
-//     if (error) {
-//       dispatch(clearErrors());
-//     }
-//   }, [dispatch, error]);
+  //   useEffect(() => {
+  //     if (error) {
+  //       dispatch(clearErrors());
+  //     }
+  //   }, [dispatch, error]);
 
   const order = {
     orderItems: cartItems,
@@ -59,9 +64,17 @@ const Payment = ({ history }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
     document.querySelector("#pay_btn").disabled = true;
-
+    toast('Please wait, Payment is processing...', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     let res;
     try {
       const config = {
@@ -73,8 +86,6 @@ const Payment = ({ history }) => {
       res = await axios.post("/api/v1/payment/process", paymentData, config);
 
       const clientSecret = res.data.client_secret;
-
-      console.log(clientSecret);
 
       if (!stripe || !elements) {
         return;
@@ -90,37 +101,61 @@ const Payment = ({ history }) => {
         },
       });
 
-
       if (result.error) {
-        alert.error(result.error.message);
+        toast(result.error.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         document.querySelector("#pay_btn").disabled = false;
       } else {
         // The payment is processed or not
         if (result.paymentIntent.status === "succeeded") {
-          order.paymentInfo = {
-            id: result.paymentIntent.id,
-            status: result.paymentIntent.status,
-          };
+          //   order.paymentInfo = {
+          //     id: result.paymentIntent.id,
+          //     status: result.paymentIntent.status,
+          //   };
 
-        //   dispatch(createOrder(order));
+          //   dispatch(createOrder(order));
 
-          history.push("/success");
+          navigate("/success");
         } else {
-          alert.error("There is some issue while payment processing");
+          toast("There is some issue while payment processing", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         }
       }
     } catch (error) {
       document.querySelector("#pay_btn").disabled = false;
-      alert.error(error.response.data.message);
+      toast(error.response.data.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
   return (
     <Fragment>
       <Metadata title={"Payment"} />
-
       <CheckoutSteps shipping confirmOrder payment />
-
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
           <form className="shadow-lg" onSubmit={submitHandler}>

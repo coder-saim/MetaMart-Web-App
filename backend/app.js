@@ -8,15 +8,18 @@ const payment = require('./routes/payment')
 const errorMiddleware = require('./middlewares/errors')
 const bodyParser = require('body-parser')
 const cloudinary = require('cloudinary').v2;
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 const fileUpload = require('express-fileupload')
+
+
+dotenv.config({ path: "config/config.env" });  
+
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(fileUpload());
-
-dotenv.config({ path: "config/config.env" });
+ 
 
 // setting cloudinary config....
 cloudinary.config({ 
@@ -24,7 +27,7 @@ cloudinary.config({
     api_key: '443437824539296', 
     api_secret: 'fx-x7hm9f-0n6U3PN6_AEZd5MFw',
     secure: true 
-  });
+  }); 
 
 
 app.use('/api/v1',products);
