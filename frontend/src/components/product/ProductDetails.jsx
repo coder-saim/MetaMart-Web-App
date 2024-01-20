@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetails, clearErrors } from "../../actions/productActions";
 import { Slide, ToastContainer, toast } from "react-toastify";
@@ -7,10 +7,12 @@ import { useParams } from "react-router-dom";
 import Loading from "../layout/Loading";
 import Metadata from "../layout/Metadata";
 import { Carousel } from "react-bootstrap";
+import { addItemToCart } from "../../actions/cartActions";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState(1)
 
   const { loading, product, error } = useSelector(
     (state) => state.productDetails
@@ -33,6 +35,62 @@ const ProductDetails = () => {
     }
     dispatch(getProductDetails(id));
   }, [dispatch, error, id]);
+
+
+  const addToCart = () => {
+    dispatch(addItemToCart(id, quantity));
+    toast('Item Added to Cart', {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+} 
+
+
+  const increaseQty = () => {
+    const count = document.querySelector(".count");
+
+    if (count.valueAsNumber >= product.stock) {
+      toast(`Product limit exceeded!`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;}
+
+    const qty = count.valueAsNumber + 1;
+    setQuantity(qty);
+  };
+
+  const decreaseQty = () => {
+    const count = document.querySelector(".count");
+
+    if (count.valueAsNumber <= 1) {
+      toast(`Product limit can not be less than 1!`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;} 
+
+    const qty = count.valueAsNumber - 1;
+    setQuantity(qty);
+  };
 
   return (
     <Fragment>
@@ -76,21 +134,27 @@ const ProductDetails = () => {
 
                 <p id="product_price">${product.price}</p>
                 <div class="stockCounter d-inline">
-                  <span class="btn btn-danger minus">-</span>
+                  <span class="btn btn-danger minus" onClick={decreaseQty}>
+                    -
+                  </span>
 
                   <input
                     type="number"
                     class="form-control count d-inline"
-                    value="1"
+                    value={quantity}
                     readOnly
                   />
 
-                  <span class="btn btn-primary plus">+</span>
+                  <span class="btn btn-primary plus" onClick={increaseQty}>
+                    +
+                  </span>
                 </div>
                 <button
                   type="button"
                   id="cart_btn"
                   class="btn btn-primary d-inline ml-4"
+                  onClick={addToCart}
+                  disabled={product.stock === 0}
                 >
                   Add to Cart
                 </button>
