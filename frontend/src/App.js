@@ -15,6 +15,7 @@ import ForgotPassword from "./components/user/ForgotPassword";
 import ResetPassword from "./components/user/ResetPassword";
 import Cart from "./components/cart/Cart";
 import Shipping from "./components/cart/Shipping";
+import ConfirmOrder from "./components/cart/ConfirmOrder";
 
 
 
@@ -34,6 +35,7 @@ function App() {
 
           <Route path="/cart" element={<Cart />} />
           <Route path="/shipping" element={<Shipping />} />
+          <Route path="/order/confirm" element={<ConfirmOrder />} />
 
           
           <Route path="/login" element={<Login />} />
