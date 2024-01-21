@@ -34,9 +34,9 @@ const reducer = combineReducers({
   cart: cartReducer,
   newOrder: newOrderReducer,
   myOrders: myOrdersReducer,
-  // allOrders: allOrdersReducer,
-  // orderDetails: orderDetailsReducer,
-  // order: orderReducer,
+  allOrders: allOrdersReducer,
+  orderDetails: orderDetailsReducer,
+  order: orderReducer,
   // newReview: newReviewReducer
 });
  
