@@ -33,13 +33,13 @@ const reducer = combineReducers({
   forgotPassword: forgotPasswordReducer,
   cart: cartReducer,
   newOrder: newOrderReducer,
-  // myOrders: myOrdersReducer,
+  myOrders: myOrdersReducer,
   // allOrders: allOrdersReducer,
   // orderDetails: orderDetailsReducer,
   // order: orderReducer,
   // newReview: newReviewReducer
 });
-
+ 
 let initialState = {
   cart: {
     cartItems: localStorage.getItem("cartItems")
