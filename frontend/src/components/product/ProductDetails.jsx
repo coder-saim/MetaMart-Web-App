@@ -1,6 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductDetails, clearErrors } from "../../actions/productActions";
+import {
+  getProductDetails,
+  clearErrors,
+  newReview,
+} from "../../actions/productActions";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
@@ -8,14 +12,22 @@ import Loading from "../layout/Loading";
 import Metadata from "../layout/Metadata";
 import { Carousel } from "react-bootstrap";
 import { addItemToCart } from "../../actions/cartActions";
+import { NEW_REVIEW_RESET } from "../../constants/productConstants";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [quantity, setQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(1);
+
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   const { loading, product, error } = useSelector(
     (state) => state.productDetails
+  );
+  const { user } = useSelector((state) => state.auth);
+  const { error: reviewError, success } = useSelector(
+    (state) => state.newReview
   );
 
   useEffect(() => {
@@ -33,13 +45,42 @@ const ProductDetails = () => {
       dispatch(clearErrors());
       return;
     }
-    dispatch(getProductDetails(id));
-  }, [dispatch, error, id]);
 
+    if (reviewError) {
+      toast("Something went wrong!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      dispatch(clearErrors());
+      return;
+    }
+
+    dispatch(getProductDetails(id));
+
+    if (success) {
+      toast("Reivew posted successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      dispatch({ type: NEW_REVIEW_RESET });
+    }
+  }, [dispatch, error, reviewError, success, id]);
 
   const addToCart = () => {
     dispatch(addItemToCart(id, quantity));
-    toast('Item Added to Cart', {
+    toast("Item Added to Cart", {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -49,8 +90,7 @@ const ProductDetails = () => {
       progress: undefined,
       theme: "light",
     });
-} 
-
+  };
 
   const increaseQty = () => {
     const count = document.querySelector(".count");
@@ -66,7 +106,8 @@ const ProductDetails = () => {
         progress: undefined,
         theme: "light",
       });
-      return;}
+      return;
+    }
 
     const qty = count.valueAsNumber + 1;
     setQuantity(qty);
@@ -86,10 +127,55 @@ const ProductDetails = () => {
         progress: undefined,
         theme: "light",
       });
-      return;} 
+      return;
+    }
 
     const qty = count.valueAsNumber - 1;
     setQuantity(qty);
+  };
+
+  function setUserRatings() {
+    const stars = document.querySelectorAll(".star");
+
+    stars.forEach((star, index) => {
+      star.starValue = index + 1;
+
+      ["click", "mouseover", "mouseout"].forEach(function (e) {
+        star.addEventListener(e, showRatings);
+      });
+    });
+
+    function showRatings(e) {
+      stars.forEach((star, index) => {
+        if (e.type === "click") {
+          if (index < this.starValue) {
+            star.classList.add("orange");
+
+            setRating(this.starValue);
+          } else {
+            star.classList.remove("orange");
+          }
+        }
+
+        if (e.type === "mouseover") {
+          if (index < this.starValue) {
+            star.classList.add("yellow");
+          } else {
+            star.classList.remove("yellow");
+          }
+        }
+
+        if (e.type === "mouseout") {
+          star.classList.remove("yellow");
+        }
+      });
+    }
+  }
+
+  const reviewHandler = () => {
+    const formData = { rating: rating, comment: comment, productId: id };
+
+    dispatch(newReview(formData));
   };
 
   return (
@@ -182,15 +268,22 @@ const ProductDetails = () => {
                   Sold by: <strong>{product.seller}</strong>
                 </p>
 
-                <button
-                  id="review_btn"
-                  type="button"
-                  class="btn btn-primary mt-4"
-                  data-toggle="modal"
-                  data-target="#ratingModal"
-                >
-                  Submit Your Review
-                </button>
+                {user ? (
+                  <button
+                    id="review_btn"
+                    type="button"
+                    className="btn btn-primary mt-4"
+                    data-toggle="modal"
+                    data-target="#ratingModal"
+                    onClick={setUserRatings}
+                  >
+                    Submit Your Review
+                  </button>
+                ) : (
+                  <div className="alert alert-danger mt-5" type="alert">
+                    Login to post your review.
+                  </div>
+                )}
 
                 <div class="row mt-2 mb-5">
                   <div class="rating w-50">
@@ -239,11 +332,14 @@ const ProductDetails = () => {
                             <textarea
                               name="review"
                               id="review"
-                              class="form-control mt-3"
+                              className="form-control mt-3"
+                              value={comment}
+                              onChange={(e) => setComment(e.target.value)}
                             ></textarea>
 
                             <button
-                              class="btn my-3 float-right review-btn px-4 text-white"
+                              className="btn my-3 float-right review-btn px-4 text-white"
+                              onClick={reviewHandler}
                               data-dismiss="modal"
                               aria-label="Close"
                             >
