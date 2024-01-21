@@ -13,6 +13,7 @@ import Metadata from "../layout/Metadata";
 import { Carousel } from "react-bootstrap";
 import { addItemToCart } from "../../actions/cartActions";
 import { NEW_REVIEW_RESET } from "../../constants/productConstants";
+import ListReviews from "../review/ListReviews";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -354,6 +355,11 @@ const ProductDetails = () => {
               </div>
             </div>
           </div>
+
+          {product.reviews && product.reviews.length > 0 && (
+            <ListReviews reviews={product.reviews} />
+          )}
+
           <ToastContainer />
         </Fragment>
       )}
