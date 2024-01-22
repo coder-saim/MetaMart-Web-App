@@ -4,12 +4,18 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   productsReducer,
   productDetailsReducer,
-  newReviewReducer
+  newReviewReducer,
+  productReducer,
+  newProductReducer,
+  productReviewsReducer,
+  reviewReducer
 } from "./reducers/productsReducer";
 import {
   authReducer,
   userReducer,
   forgotPasswordReducer,
+  allUsersReducer,
+  userDetailsReducer
 } from "./reducers/userReducer";
 import { cartReducer } from "./reducers/cartReducer";
 import {
@@ -23,14 +29,14 @@ import {
 const reducer = combineReducers({
   products: productsReducer,
   productDetails: productDetailsReducer,
-  // newProduct: newProductReducer,
-  // product: productReducer,
-  // productReviews: productReviewsReducer,
-  // review: reviewReducer,
+  newProduct: newProductReducer,
+  product: productReducer,
+  productReviews: productReviewsReducer,
+  review: reviewReducer,
   auth: authReducer,
   user: userReducer,
-  // allUsers: allUsersReducer,
-  // userDetails: userDetailsReducer,
+  allUsers: allUsersReducer,
+  userDetails: userDetailsReducer,
   forgotPassword: forgotPasswordReducer,
   cart: cartReducer,
   newOrder: newOrderReducer,
