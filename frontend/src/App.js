@@ -23,9 +23,14 @@ import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./components/cart/OrderSuccess";
 import ListOrders from "./components/order/ListOrder";
 import OrderDetails from "./components/order/OrderDetails";
+import Dashboard from "./components/admin/Dashboard";
+import { useDispatch, useSelector } from "react-redux";
+import ProductsList from "./components/admin/ProductList";
+import NewProduct from "./components/admin/NewProduct";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
+
   useEffect(() => {
     store.dispatch(loadUser());
 
@@ -52,7 +57,7 @@ function App() {
           <Route path="/order/confirm" element={<ConfirmOrder />} />
           <Route path="/orders/me" element={<ListOrders />} />
           <Route path="/order/:id" element={<OrderDetails />} />
-          
+
           {stripeApiKey && (
             <Route
               path="/payment"
@@ -71,6 +76,10 @@ function App() {
           <Route path="/password/update" element={<UpdatePassword />} />
           <Route path="/password/forgot" element={<ForgotPassword />} />
           <Route path="/password/reset/:token" element={<ResetPassword />} />
+
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin/products" element={<ProductsList />} />
+          <Route path="/admin/product" element={<NewProduct />} />
         </Routes>
         <Footer />
       </div>
