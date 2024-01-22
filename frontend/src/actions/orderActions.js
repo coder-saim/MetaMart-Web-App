@@ -96,7 +96,7 @@ export const allOrders = () => async (dispatch) => {
 
         dispatch({ type: ALL_ORDERS_REQUEST });
 
-        const { data } = await axios.get(`/api/v1/admin/orders`)
+        const { data } = await axios.get(`/api/v1/admin/order`)
 
         dispatch({
             type: ALL_ORDERS_SUCCESS,
