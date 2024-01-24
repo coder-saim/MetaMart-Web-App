@@ -28,6 +28,8 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductsList from "./components/admin/ProductList";
 import NewProduct from "./components/admin/NewProduct";
 import UpdateProduct from "./components/admin/UpdateProduct";
+import OrdersList from "./components/admin/OrderList";
+import ProcessOrder from "./components/admin/ProcessOrder";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -82,6 +84,10 @@ function App() {
           <Route path="/admin/products" element={<ProductsList />} />
           <Route path="/admin/product" element={<NewProduct />} />
           <Route path="/admin/product/:id" element={<UpdateProduct />} />
+          <Route path="/admin/orders" element={<OrdersList />} />
+          <Route path="/admin/order/:id" element={<ProcessOrder />} />
+        
+        
         </Routes>
         <Footer />
       </div>
