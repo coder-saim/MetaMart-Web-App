@@ -32,6 +32,7 @@ import OrdersList from "./components/admin/OrderList";
 import ProcessOrder from "./components/admin/ProcessOrder";
 import UsersList from "./components/admin/UserList";
 import UpdateUser from "./components/admin/UpdateUser";
+import ProductReviews from "./components/admin/ProductReview";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -90,6 +91,7 @@ function App() {
           <Route path="/admin/order/:id" element={<ProcessOrder />} />
           <Route path="/admin/users" element={<UsersList />} />
           <Route path="/admin/user/:id" element={<UpdateUser />} />
+          <Route path="/admin/reviews" element={<ProductReviews />} />
         
         
         </Routes>
